@@ -1,7 +1,7 @@
 [project]
-name = "unlv"
+name = "rogia"
 version = "0.1.0"
-description = "Add your description here"
+description = "Robust Vision Transformer Against Gradient Inversion Attacks"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
