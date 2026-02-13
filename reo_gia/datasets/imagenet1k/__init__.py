@@ -20,6 +20,7 @@ class ImageNet1K(datasets.ImageFolder):
     download_method = huggingface_hub.hf_hub_download
     dataset_name = "imagenet-1k"
     dataset_id = "ILSVRC/imagenet-1k"
+    revision = "1500f8c59b214ce459c0a593fa1c87993aeb7700"
     obj_classes = tuple(IMAGENET2012_CLASSES.keys())
     obj_class_namees = tuple(IMAGENET2012_CLASSES.values())
     num_classes = len(obj_classes)
@@ -70,7 +71,8 @@ class ImageNet1K(datasets.ImageFolder):
                 repo_id=cls.dataset_id,
                 repo_type="dataset",
                 local_dir=root.parent,
-                force_download=force
+                force_download=force,
+                revision=cls.revision
             ) for filename in cls.filenames[dataset_type]]
 
             for filename in cls.filenames[dataset_type]:
