@@ -1,6 +1,7 @@
 import os
 
-from transformers.modeling_utils import PreTrainedModel, PreTrainedConfig
+from transformers.configuration_utils import PretrainedConfig
+from transformers.modeling_utils import PreTrainedModel
 from transformers.utils import logging
 
 
@@ -57,7 +58,7 @@ class BaseModel(PreTrainedModel):
         pretrained_model_name_or_path: str | os.PathLike | None,
         num_classes: int,
         *model_args,
-        config: PreTrainedConfig | str | os.PathLike | None = None,
+        config: PretrainedConfig | str | os.PathLike | None = None,
         cache_dir: str | os.PathLike | None = None,
         ignore_mismatched_sizes: bool = False,
         force_download: bool = False,
@@ -69,7 +70,7 @@ class BaseModel(PreTrainedModel):
         **kwargs,
     ) -> "BaseModel":
         if not pretrained_model_name_or_path:
-            pretrained_model_name_or_path = cls.model_variation.default
+            pretrained_model_name_or_path = cls.model_variation[cls.dataset_name]
 
         model = super().from_pretrained(
             pretrained_model_name_or_path,
@@ -85,6 +86,7 @@ class BaseModel(PreTrainedModel):
             weights_only=weights_only,
             **kwargs
         )
+        model.model_id = pretrained_model_name_or_path
 
         if model.config.num_labels != num_classes:
             model.config.num_labels = num_classes
