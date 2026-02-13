@@ -89,6 +89,5 @@ def build_augmentation(img_size, num_ops=2, magnitude=9):
     return transforms.Compose([
         transforms.RandomResizedCrop(img_size),  # Resize Image
         transforms.RandomHorizontalFlip(),
-        transforms.RandAugment(num_ops=num_ops, magnitude=magnitude),
-        transforms.ToTensor(),  # Convert Image to Tensor
+        transforms.RandAugment(num_ops=num_ops, magnitude=magnitude)
     ])

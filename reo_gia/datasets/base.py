@@ -9,11 +9,6 @@ class BaseDataset(Dataset):
     image_mean: list[float] = (0, 0, 0)
     image_std: list[float] = (1, 1, 1)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.transform is None:
-            self.transform = transforms.ToTensor()
-
     @property
     def config(self) -> dict:
         return dict(
