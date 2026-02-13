@@ -54,22 +54,29 @@ def dataset_split(dataset, split=0.1, new_transforms=None, random_seed=42):
 
 class DatasetHolder:
     def __init__(self, train, test, valid=None, attack=None):
+        self.config = train.config
+        self.dataset_name = train.dataset_name
+        self.num_classes = train.num_classes
         self.train = train
         self.test = test
         self.valid = valid
         self.attack = attack
         self.num_classes = len(train.classes) if hasattr(train, 'classes') else len(test.classes)
 
-    def split_train_valid(self, split=0.1, random_seed=42):
+    def split_train_valid(self, split=0.1, random_seed=42, new_transform=None):
         if self.valid is None:
-            self.train, self.valid = dataset_split(self.train, split, self.config.resizing, random_seed)
+            if new_transform is None:
+                new_transform = transforms.ToTensor()
+            self.train, self.valid = dataset_split(self.train, split, new_transform, random_seed)
         else:
             raise ValueError("Validation set already exists. Use a different split value.")
         return self
 
-    def split_train_attack(self, split=0.1, random_seed=42) -> Self:
+    def split_train_attack(self, split=0.1, random_seed=42, new_transform=None) -> Self:
         if self.attack is None:
-            self.train, self.attack = dataset_split(self.train, split, self.config.resizing, random_seed)
+            if new_transform is None:
+                new_transform = transforms.ToTensor()
+            self.train, self.attack = dataset_split(self.train, split, new_transform, random_seed)
         else:
             raise ValueError("Attack set already exists. Use a different split value.")
         return self

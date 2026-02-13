@@ -55,8 +55,8 @@ class BaseModel(PreTrainedModel):
     @classmethod
     def from_pretrained(
         cls,
-        pretrained_model_name_or_path: str | os.PathLike | None,
-        num_classes: int,
+        pretrained_model_name_or_path: str | os.PathLike | None = None,
+        num_classes: int = 0,
         *model_args,
         config: PretrainedConfig | str | os.PathLike | None = None,
         cache_dir: str | os.PathLike | None = None,
@@ -70,7 +70,14 @@ class BaseModel(PreTrainedModel):
         **kwargs,
     ) -> "BaseModel":
         if not pretrained_model_name_or_path:
-            pretrained_model_name_or_path = cls.model_variation[cls.dataset_name]
+            if cls.dataset_name in cls.model_variation and cls.model_variation[cls.dataset_name]:
+                pretrained_model_name_or_path = cls.model_variation[cls.dataset_name]
+            else:
+                pretrained_model_name_or_path = cls.model_variation['default']
+                logger.info(f"Cannot find the matched model for the dataset `{cls.dataset_name}`, automatically initialized to default registry")
+
+        if not num_classes:
+            raise AttributeError("The argument `num_classes` cannot be zero")
 
         model = super().from_pretrained(
             pretrained_model_name_or_path,
@@ -90,7 +97,7 @@ class BaseModel(PreTrainedModel):
 
         if model.config.num_labels != num_classes:
             model.config.num_labels = num_classes
-            model.classifier = cls(config=config).classifier
+            model.classifier = cls(config=model.config).classifier
             model._init_weights(model.classifier)  # Reinitialize the classifier head
             logger.warning(f"Number of labels in the loaded model ({model.config.num_labels}) does not match the specified num_classes ({num_classes}). The classifier head has been reinitialized.")
 

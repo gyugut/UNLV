@@ -1,16 +1,16 @@
 from typing import Callable, Optional
 from os import path, rmdir, mkdir
 from pathlib import Path
-import traceback
 
 from torchvision.datasets.utils import extract_archive
 from torchvision import datasets
 import huggingface_hub
 
 from .classes import IMAGENET2012_CLASSES
+from ..base import BaseDataset
 
 
-class ImageNet1K(datasets.ImageFolder):
+class ImageNet1K(BaseDataset, datasets.ImageFolder):
     """
     ImageNet-1K dataset
 
