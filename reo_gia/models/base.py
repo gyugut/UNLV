@@ -32,7 +32,7 @@ class BaseModel(PreTrainedModel):
         token: str | bool | None = None,
         save_peft_format: bool = True,
         save_original_format: bool = True,
-        **kwargs,
+        **kwargs
     ):
         if not save_directory:
             save_directory = os.path.join(".", "results", f"{self.model_id}-{self.dataset_name}")
@@ -46,7 +46,7 @@ class BaseModel(PreTrainedModel):
             variant=variant,
             token=token,
             save_peft_format=save_peft_format,
-            save_original_format=save_original_format
+            save_original_format=save_original_format,
             **kwargs
         )
 
