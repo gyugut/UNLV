@@ -15,7 +15,7 @@ SwinTiny = SwinForImageClassification  # Alias
 class SwinForImageClassification(BaseModel, _SwinForImageClassification):
     model_id = "microsoft/swin-small-patch4-window7-224"
     model_variation = ModelRegistry(**{
-        'default': model_id, 'imagenet-1k': model_id, 'cifar-10': "" # TODO
+        'default': model_id, 'imagenet-1k': model_id, 'cifar-10': "clr4takeoff/swin-small-cifar10"
     })
 
 

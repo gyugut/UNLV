@@ -5,7 +5,7 @@ from ..base import BaseModel, ModelRegistry
 class ConvNextForImageClassification(BaseModel, _ConvNextForImageClassification):
     model_id = "facebook/convnext-small-224"
     model_variation = ModelRegistry(**{
-        'default': model_id, 'imagenet-1k': model_id, 'cifar-10': "" # TODO
+        'default': model_id, 'imagenet-1k': model_id, 'cifar-10': "clr4takeoff/convnext-small-cifar10"
     })
 
 
